@@ -20,7 +20,7 @@ Please consult the included `AirtimeMedia.doccarchive` for further details on th
 ### Creating a channel
 The `AirtimeMedia` module exposes a singleton, `Engine.sharedInstance` that is the top level object to interact with the SDK. It can produce `Channel` objects.
 
-A `Channel` object is your connection to a real time voice call. You can think of “joining” a `Channel` as an act similar to tuning into a radio frequency on a walkie-talking. Instead of a radio frequency, a `Channel` tunes into a channel ID.
+A `Channel` object is your connection to a real time voice call. You can think of “joining” a `Channel` as an act similar to tuning into a radio frequency on a walkie-talkie. Instead of a radio frequency, a `Channel` tunes into a channel ID.
 
 Once you create a channel through the `Engine`'s `joinChannel` function, you must retain the resulting object to stay connected. The channel will not be able to receive remote streams until the `start` method is called.
 ```Swift
@@ -191,6 +191,7 @@ guard let localStream = localStream else { fatalError() } // Handle error case
 // When you wish to stop sending local audio, stop the local stream
 localStream.stop()
 ```
+
 ```objectivec
 // Objective-C
 @import AirtimeMedia
