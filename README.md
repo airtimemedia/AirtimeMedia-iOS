@@ -1,4 +1,4 @@
-# ✨ The Airtime Media Real-Time SDK - Early Access  ✨
+# ✨ Airtime Media SDK - Early Access ✨
 
 ## Installation
 
@@ -7,6 +7,12 @@
  3. At the bottom of the Package Manager window, select `Add Local...`.
  4. Select the directory containing the accompanying `Package.swift` and then select `Add Package`.
  5. Under the `Link Binary with Libraries` build phase of your app target, add the `AirtimeMedia` library.
+ 6. In order to publish through `LocalStream`'s, you need to provide a microphone usage description in your Info.plist
+
+## Limitations
+
+ - Builds for ARM iOS and x86 Simulator.
+ - Bitcode must be **disabled**
 
 ## Usage
 Please consult the included `AirtimeMedia.doccarchive` for further details on the precise public API, e.g. `open AirtimeMedia.doccarchive/`.
@@ -14,7 +20,7 @@ Please consult the included `AirtimeMedia.doccarchive` for further details on th
 ### Creating a channel
 The `AirtimeMedia` module exposes a singleton, `Engine.sharedInstance` that is the top level object to interact with the SDK. It can produce `Channel` objects.
 
-A `Channel` object is your connection to a real time voice call. You can think of “joining” a `Channel` as an act similar to tuning into a radio frequency on a walkie-talkie. Instead of a radio frequency, a `Channel` tunes into a “tag”.
+A `Channel` object is your connection to a real time voice call. You can think of “joining” a `Channel` as an act similar to tuning into a radio frequency on a walkie-talking. Instead of a radio frequency, a `Channel` tunes into a channel ID.
 
 Once you create a channel through the `Engine`'s `joinChannel` function, you must retain the resulting object to stay connected. The channel will not be able to receive remote streams until the `start` method is called.
 ```Swift
@@ -23,11 +29,11 @@ import AirtimeMedia
 
 // Token variable doesn't do anything at the moment
 let token = "this_does_not_matter"
-// The tag is your Channel's identifier
-let tag = "tag_name"
+// The channel ID is your Channel's identifier
+let channelId = "id_for_participants_to_use"
 
 // Keep this object around!
-let channel = Engine.sharedInstance.joinChannel(token: token, tag: tag)
+let channel = Engine.sharedInstance.joinChannel(token: token, tag: channelId)
 // Check if the channel was successfully created
 guard let channel = channel else { fatalError() } // Handle error case
 
@@ -43,12 +49,12 @@ channelStorage.channel = channel
 
 // Token variable doesn't do anything at the moment
 NSString *token = @"this_does_not_matter";
-// The tag is your Channel's identifier
-NSString *tag = @"tag_name";
+// The channel ID is your Channel's identifier
+NSString *channelId = @"id_for_participants_to_use";
 
 // Keep this object around!
 ATMChannel *channel = [ATMEngine.sharedInstance joinChannelWithToken:token
-                                                                 tag:tag];
+                                                                 tag:channelId];
 
 // Check if the channel was successfully created
 if (channel == nil) {
@@ -65,7 +71,6 @@ channelStorage.channel = channel;
 ### Receiving streams
 While you are connected to a channel, you will be receiving remote streams automatically. These streams will appear in the `remoteStreams` property on your `Channel` object. To be notified about when streams are added and removed from this connected streams set, you can subscribe to the provided notifications.
 ```Swift
-// Swift
 import AirtimeMedia
 
 let channel: Channel
@@ -74,7 +79,7 @@ NotificationCenter.default.addObserver(self,
                                        selector: #selector(onRemoteStreamAdded(_:)),
                                        name: ChannelNotification.remoteStreamWasAdded,
                                        object: channel)
-
+                                       
 NotificationCenter.default.addObserver(self,
                                        selector: #selector(onRemoteStreamRemoved(_:)),
                                        name: ChannelNotification.remoteStreamWasRemoved,
@@ -90,7 +95,7 @@ ATMChannel *channel;
                                        selector:@selector(onRemoteStreamAdded:)
                                            name:ATMChannelNotification.remoteStreamWasAdded
                                          object:channel];
-
+                                       
 [NSNotificationCenter.defaultCenter addObserver:self
                                        selector:@selector(onRemoteStreamRemoved:)
                                            name:ATMChannelNotification.remoteStreamWasRemoved
@@ -128,7 +133,6 @@ NotificationCenter.default.addObserver(self,
                                        name: RemoteStreamNotification.connectionStateDidChange,
                                        object: remoteStream)
 
-// In RemoteStreamStore
 @objc func onRemoteStreamConnectionChange(_ notif: NSNotification) {
   // Check the current `connectionState` and respond accordingly
   let state = remoteStream.connectionState
@@ -147,12 +151,11 @@ NotificationCenter.default.addObserver(self,
 
 ATMRemoteStream *remoteStream;
 
-[NSNotificationCenter.defaultCenter addObserver:remoteStreamStore
+[NSNotificationCenter.defaultCenter addObserver:self
                                        selector:@selector(onRemoteStreamConnectionChange:)
                                            name:ATMRemoteStreamNotification.connectionStateDidChange
                                          object:remoteStream];
 
-// In RemoteStreamStore
 - (void)onRemoteStreamConnectionChange:(NSNotification *)notif {
   // Check the current `connectionState` and respond accordingly
   ATMRemoteStreamConnectionState state = remoteStream.connectionState;
@@ -188,7 +191,6 @@ guard let localStream = localStream else { fatalError() } // Handle error case
 // When you wish to stop sending local audio, stop the local stream
 localStream.stop()
 ```
-
 ```objectivec
 // Objective-C
 @import AirtimeMedia
