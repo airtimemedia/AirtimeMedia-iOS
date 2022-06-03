@@ -33,7 +33,7 @@ let token = "this_does_not_matter"
 let channelId = "id_for_participants_to_use"
 
 // Keep this object around!
-let channel = Engine.sharedInstance.joinChannel(token: token, tag: channelId)
+let channel = Engine.sharedInstance.joinChannel(token: token, channelId: channelId)
 // Check if the channel was successfully created
 guard let channel = channel else { fatalError() } // Handle error case
 
@@ -54,7 +54,7 @@ NSString *channelId = @"id_for_participants_to_use";
 
 // Keep this object around!
 ATMChannel *channel = [ATMEngine.sharedInstance joinChannelWithToken:token
-                                                                 tag:channelId];
+                                                                 channelId:channelId];
 
 // Check if the channel was successfully created
 if (channel == nil) {
