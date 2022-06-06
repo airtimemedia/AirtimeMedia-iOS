@@ -68,6 +68,9 @@ if (channel == nil) {
 channelStorage.channel = channel;
 ```
 
+### Leaving a Channel
+A Channel is left when all references to the Channel go out of scope, or if the `leave()` method is called on the Channel. `leave()` can be called on the Channel even before the Channel is joined. Once a Channel is left, it and all its streams will be terminated permanently, rendering the Channel object invalid and disposable. 
+
 ### Receiving streams
 While you are connected to a channel, you will be receiving remote streams automatically. These streams will appear in the `remoteStreams` property on your `Channel` object. To be notified about when streams are added and removed from this connected streams set, you can subscribe to the provided notifications.
 ```Swift
