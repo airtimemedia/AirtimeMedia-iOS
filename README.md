@@ -186,8 +186,14 @@ import AirtimeMedia
 
 // ... create a channel
 
-let localStream = channel.startLocalStream()
+let localStream = channel.createLocalStream()
 guard let localStream = localStream else { fatalError() } // Handle error case
+
+// Start the local stream
+localStream.start()
+
+// Mute/unmute the audio
+localStream.setAudioMuted(true)
 
 // The local stream can be optionally retained or otherwise it can be accessed from the channel.
 
@@ -201,12 +207,18 @@ localStream.stop()
 
 // ... create a channel
 
-ATMLocalStream *localStream = [channel startLocalStream];
+ATMLocalStream *localStream = [channel createLocalStream];
 
 // Check if the local stream was successfully created
 if (localStream == nil) {
   exit(); // Handle error case
 }
+
+// Start the local stream
+[localStream start]
+
+// Mute/unmute the audio
+[localStream setAudioMuted:TRUE]
 
 // The local stream can be optionally retained or otherwise it can be accessed from the channel.
 
