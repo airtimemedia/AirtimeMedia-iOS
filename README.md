@@ -196,7 +196,7 @@ guard let localStream = localStream else { fatalError() } // Handle error case
 localStream.start()
 
 // Mute/unmute the audio
-localStream.audioMuted(true)
+localStream.muteAudio(true)
 
 // The local stream can be optionally retained or otherwise it can be accessed from the channel.
 
@@ -221,7 +221,7 @@ if (localStream == nil) {
 [localStream start];
 
 // Mute/unmute the audio
-[localStream audioMuted:YES];
+[localStream muteAudio:YES];
 
 // The local stream can be optionally retained or otherwise it can be accessed from the channel.
 
