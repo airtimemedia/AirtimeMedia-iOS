@@ -177,6 +177,9 @@ ATMRemoteStream *remoteStream;
 ```
 If a remote stream is terminated, you can check the termination reason on the `terminationCause` property of the `RemoteStream`.  Once a remote stream is terminated, it will never revive, the `RemoteStream` object will no longer be valid, and the object will be removed from the corresponding `Channel`'s `remoteStreams` set property. Thus, if you no longer hold any strong references to the `RemoteStream` object, it will be destroyed.
 
+#### RemoteStream mute state
+The RemoteStream's mute state is tracked through the `remoteAudioMuted` property. You can observe changes to this property with the `RemoteStreamNotification.remoteAudioMuteStateWasSet` notification. The `remoteAudioMuted` property specifically represents whether the remote user has muted their stream or if the stream was administratively muted.
+
 ### Local streams
 To send your own local audio to other channel members, you will need to make a `LocalStream`.
 
