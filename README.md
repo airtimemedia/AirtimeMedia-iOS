@@ -1,3 +1,4 @@
+
 # ✨ Airtime Media SDK - Early Access ✨
 
 ## Installation
@@ -176,8 +177,10 @@ ATMRemoteStream *remoteStream;
 ```
 If a remote stream is terminated, you can check the termination reason on the `terminationCause` property of the `RemoteStream`.  Once a remote stream is terminated, it will never revive, the `RemoteStream` object will no longer be valid, and the object will be removed from the corresponding `Channel`'s `remoteStreams` set property. Thus, if you no longer hold any strong references to the `RemoteStream` object, it will be destroyed.
 
-### Creating a local stream
+### Local streams
 To send your own local audio to other channel members, you will need to make a `LocalStream`.
+
+After starting, a `LocalStream`  can be muted or unmuted.  Muting is an asynchronous operation.  To unmute a stream, behind the scenes we must verify with a server that the User has permission to unmute themself.  On the other hand, a stream can always be muted immediately.
 
 
 ```Swift
@@ -186,8 +189,14 @@ import AirtimeMedia
 
 // ... create a channel
 
-let localStream = channel.startLocalStream()
+let localStream = channel.createLocalStream()
 guard let localStream = localStream else { fatalError() } // Handle error case
+
+// Start the local stream
+localStream.start()
+
+// Mute/unmute the audio
+localStream.setAudioMuted(true)
 
 // The local stream can be optionally retained or otherwise it can be accessed from the channel.
 
@@ -201,12 +210,18 @@ localStream.stop()
 
 // ... create a channel
 
-ATMLocalStream *localStream = [channel startLocalStream];
+ATMLocalStream *localStream = [channel createLocalStream];
 
 // Check if the local stream was successfully created
 if (localStream == nil) {
   exit(); // Handle error case
 }
+
+// Start the local stream
+[localStream start];
+
+// Mute/unmute the audio
+[localStream setAudioMuted:YES];
 
 // The local stream can be optionally retained or otherwise it can be accessed from the channel.
 
