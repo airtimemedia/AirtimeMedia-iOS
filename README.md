@@ -18,6 +18,14 @@
 ## Usage
 Please consult the included `AirtimeMedia.doccarchive` for further details on the precise public API, e.g. `open AirtimeMedia.doccarchive/`.
 
+### Creating a session access token
+A session access token is the literal key for joining a channel. Using your Airtime provided secret application token, you can use the following `curl` command to generate a session access token:
+```
+curl -X POST -H "authorization: Bearer <secret application token>" -H "Content-Type: application/json" -d '{"token_lifetime":86400, "user_id":"<Your Unique User ID>", "channel_id":"<The channel ID to join>","services":{"media":{"publishers_limit":10,"allow_publish_audio":true}}}' https://yosemite.prod.airtime.com:443/session_access
+```
+
+You then provide the generated token to the Channel as an initialization parameter. Note that the token will only work for joining a Channel with the specific `channel_id` specified in the token, and the `user_id` of the token must be unique.
+
 ### Creating a channel
 The `AirtimeMedia` module exposes a singleton, `Engine.sharedInstance` that is the top level object to interact with the SDK. It can produce `Channel` objects.
 
@@ -28,18 +36,15 @@ Once you create a channel through the `Engine`'s `joinChannel` function, you mus
 // Swift
 import AirtimeMedia
 
-// Token variable doesn't do anything at the moment
-let token = "this_does_not_matter"
-// The channel ID is your Channel's identifier
-let channelId = "id_for_participants_to_use"
+let token = "The token you generated"
 
 // Keep this object around!
-let channel = Engine.sharedInstance.joinChannel(token: token, channelId: channelId)
+let channel = Engine.sharedInstance.createChannel(token: token)
 // Check if the channel was successfully created
 guard let channel = channel else { fatalError() } // Handle error case
 
 // Start the channel
-channel.start()
+channel.join()
 
 // Store the channel somewhere safe
 channelStorage.channel = channel
@@ -48,14 +53,10 @@ channelStorage.channel = channel
 // Objective-C
 @import AirtimeMedia
 
-// Token variable doesn't do anything at the moment
-NSString *token = @"this_does_not_matter";
-// The channel ID is your Channel's identifier
-NSString *channelId = @"id_for_participants_to_use";
+NSString *token = @"The token you generated";
 
 // Keep this object around!
-ATMChannel *channel = [ATMEngine.sharedInstance joinChannelWithToken:token
-                                                                 channelId:channelId];
+ATMChannel *channel = [ATMEngine.sharedInstance createChannelWithToken:token];
 
 // Check if the channel was successfully created
 if (channel == nil) {
@@ -63,7 +64,7 @@ if (channel == nil) {
 }
 
 // Start the channel
-[channel start];
+[channel join];
 
 // Store the channel somewhere safe
 channelStorage.channel = channel;
