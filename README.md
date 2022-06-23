@@ -39,7 +39,7 @@ import AirtimeMedia
 let token = "The token you generated"
 
 // Keep this object around!
-let channel = Engine.sharedInstance.joinChannel(token: token)
+let channel = Engine.sharedInstance.createChannel(token: token)
 // Check if the channel was successfully created
 guard let channel = channel else { fatalError() } // Handle error case
 
@@ -56,7 +56,7 @@ channelStorage.channel = channel
 NSString *token = @"The token you generated";
 
 // Keep this object around!
-ATMChannel *channel = [ATMEngine.sharedInstance joinChannelWithToken:token];
+ATMChannel *channel = [ATMEngine.sharedInstance createChannelWithToken:token];
 
 // Check if the channel was successfully created
 if (channel == nil) {
