@@ -1,5 +1,5 @@
 
-# ✨ Airtime Media SDK - Early Access ✨
+# ✨ Airtime Media SDK ✨
 
 ## Installation
 
