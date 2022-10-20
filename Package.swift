@@ -15,13 +15,13 @@ let package = Package(
     targets: [
         .binaryTarget(
             name: "AirtimeMedia",
-            url: "https://airtime-eng-asilomar-libs.s3-accelerate.amazonaws.com/jobs/airtimemedia/asilomar/release%252F1.5/2/AirtimeMedia.xcframework.zip",
-            checksum: "b5e0a0992da4c569465f53e0e8c96a8ed3b8f76139d948a3c7f59181e0cf62c4"
+            url: "https://airtime-eng-asilomar-libs.s3-accelerate.amazonaws.com/jobs/airtimemedia/asilomar/release%252F2.0/3/AirtimeMedia.xcframework.zip",
+            checksum: "d99714c9b527f975a60d9dc0fd251ebb4f57388dac379f3eeb4c920c4d9bd80d"
         ),
         .binaryTarget(
             name: "Bakersfield",
-            url: "https://airtime-eng-asilomar-libs.s3-accelerate.amazonaws.com/jobs/airtimemedia/asilomar/release%252F1.5/2/Bakersfield.xcframework.zip",
-            checksum: "0ce55e3f564e740f48590476022de7d5493cadf922572733bca1b1d9b4b33a10"
+            url: "https://airtime-eng-asilomar-libs.s3-accelerate.amazonaws.com/jobs/airtimemedia/asilomar/release%252F2.0/3/Bakersfield.xcframework.zip",
+            checksum: "12a984c93674353d94be3ce030fdf04848c503d61779d24ed77bc0e140987fe2"
         ),
     ]
 )
